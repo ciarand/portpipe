@@ -12,11 +12,12 @@ portpipe: A tiny utility to pipe TCP requests to the server_port into
 the client_port
 
 SYNOPSIS
-    ./portpipe [server_port] [client_port]
+    portpipe [server_address:server_port] [client_address:client_port]
 ----
 
-The `server_port` is the new server's port. The `client_port` is the old
-server's port.
+The `server_address` is the new server's address. You can usually leave it
+blank. `server_port` is the port to serve from. `client_address` is the address
+of the old server. The `client_port` is the port from the old server.
 
 Example
 -------
@@ -25,7 +26,7 @@ I have a https://github.com/ciarand/zen-srv[zen-srv] instance running on port
 
 [,bash]
 ----
-portpipe 6066 8080
+portpipe :6066 :8080
 ----
 
 And in another tmux pane:
@@ -34,6 +35,22 @@ And in another tmux pane:
 ----
 $ curl localhost:6066/zen
 It's not fully shipped until it's fast
+----
+
+Or, if you'd like to use portpipe with another server:
+
+[,bash]
+----
+$ portpipe :8088 google.com:80 &
+[1] 59382
+$ curl localhost:8088
+2014/12/18 14:46:19 Beginning piping
+<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
+<TITLE>302 Moved</TITLE></HEAD><BODY>
+<H1>302 Moved</H1>
+The document has moved
+<A HREF="http://www.google.com/">here</A>.
+</BODY></HTML>
 ----
 
 License

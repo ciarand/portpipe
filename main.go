@@ -45,7 +45,7 @@ func listen(serverPort, clientPort string) {
 func pipeConn(recvConn net.Conn, f string) {
 	defer recvConn.Close()
 
-	sendConn, err := net.Dial("tcp", "127.0.0.1:"+f)
+	sendConn, err := net.Dial("tcp", f)
 	if err != nil {
 		fmt.Printf("ERR: %s\n", err)
 		return
@@ -77,7 +77,7 @@ func printUsage() {
 the client_port
 
 SYNOPSIS
-    %s [server_port] [client_port]
+    %s [server_address:server_port] [client_address:client_port]
 `, os.Args[0])
 }
 
@@ -90,7 +90,7 @@ func printBadArgument(err error) {
 }
 
 func getListener(p string) (net.Listener, error) {
-	addr, err := net.ResolveTCPAddr("tcp", "127.0.0.1:"+p)
+	addr, err := net.ResolveTCPAddr("tcp", p)
 
 	if err != nil {
 		return nil, err
